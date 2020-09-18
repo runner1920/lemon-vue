@@ -1,5 +1,5 @@
 /* decimal.js */
-import { Decimal } from 'decimal.js';
+import { Decimal } from "decimal.js";
 /*
   函数，加法函数，用来得到精确的加法结果
   说明：javascript的加法结果会有误差，在两个浮点数相加的时候会比较明显。这个函数返回较为精确的加法结果。
@@ -9,9 +9,9 @@ import { Decimal } from 'decimal.js';
  */
 function accAdd(arg1, arg2, ...rest) {
   if (
-    arg1 === '' ||
+    arg1 === "" ||
     arg1 === null ||
-    arg2 === '' ||
+    arg2 === "" ||
     arg2 === null ||
     arg1 === undefined ||
     arg2 === undefined ||
@@ -25,7 +25,7 @@ function accAdd(arg1, arg2, ...rest) {
   const b = new Decimal(arg2);
   const c = a.plus(b);
   const e = c.toFixed(d);
-  return typeof d === 'number'
+  return typeof d === "number"
     ? parseFloat(e.toString())
     : parseFloat(c.toString());
 }
@@ -38,9 +38,9 @@ function accAdd(arg1, arg2, ...rest) {
  */
 function accSubtr(arg1, arg2, ...rest) {
   if (
-    arg1 === '' ||
+    arg1 === "" ||
     arg1 === null ||
-    arg2 === '' ||
+    arg2 === "" ||
     arg2 === null ||
     arg1 === undefined ||
     arg2 === undefined ||
@@ -54,7 +54,7 @@ function accSubtr(arg1, arg2, ...rest) {
   const b = new Decimal(arg2);
   const c = a.minus(b);
   const e = c.toFixed(d);
-  return typeof d === 'number'
+  return typeof d === "number"
     ? parseFloat(e.toString())
     : parseFloat(c.toString());
 }
@@ -67,9 +67,9 @@ function accSubtr(arg1, arg2, ...rest) {
  */
 function accMul(arg1, arg2, ...rest) {
   if (
-    arg1 === '' ||
+    arg1 === "" ||
     arg1 === null ||
-    arg2 === '' ||
+    arg2 === "" ||
     arg2 === null ||
     arg1 === undefined ||
     arg2 === undefined ||
@@ -83,7 +83,7 @@ function accMul(arg1, arg2, ...rest) {
   const b = new Decimal(arg2);
   const c = a.times(b);
   const e = c.toFixed(d);
-  return typeof d === 'number'
+  return typeof d === "number"
     ? parseFloat(e.toString())
     : parseFloat(c.toString());
 }
@@ -96,9 +96,9 @@ function accMul(arg1, arg2, ...rest) {
  */
 function accDivCoupon(arg1, arg2, ...rest) {
   if (
-    arg1 === '' ||
+    arg1 === "" ||
     arg1 === null ||
-    arg2 === '' ||
+    arg2 === "" ||
     arg2 === null ||
     arg1 === undefined ||
     arg2 === undefined ||
@@ -112,7 +112,7 @@ function accDivCoupon(arg1, arg2, ...rest) {
   const b = new Decimal(arg2);
   const c = a.dividedBy(b);
   const e = c.toFixed(d);
-  return typeof d === 'number'
+  return typeof d === "number"
     ? parseFloat(e.toString())
     : parseFloat(c.toString());
 }
@@ -124,25 +124,25 @@ function accDivCoupon(arg1, arg2, ...rest) {
   返回值：大写金额
  */
 function toChinese(n) {
-  if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(n)) return '数据非法';
-  let unit = '京亿万仟佰拾兆万仟佰拾亿仟佰拾万仟佰拾元角分';
-  let str = '';
-  n += '00';
-  const p = n.indexOf('.');
+  if (!/^(0|[1-9]\d*)(\.\d+)?$/.test(n)) return "数据非法";
+  let unit = "京亿万仟佰拾兆万仟佰拾亿仟佰拾万仟佰拾元角分";
+  let str = "";
+  n += "00";
+  const p = n.indexOf(".");
   if (p >= 0) n = n.substring(0, p) + n.substr(p + 1, 2);
   unit = unit.substr(unit.length - n.length);
   for (let i = 0; i < n.length; i++)
-    str += '零壹贰叁肆伍陆柒捌玖'.charAt(n.charAt(i)) + unit.charAt(i);
+    str += "零壹贰叁肆伍陆柒捌玖".charAt(n.charAt(i)) + unit.charAt(i);
   return str
-    .replace(/零(仟|佰|拾|角)/g, '零')
-    .replace(/(零)+/g, '零')
-    .replace(/零(兆|万|亿|元)/g, '$1')
-    .replace(/(兆|亿)万/g, '$1')
-    .replace(/(京|兆)亿/g, '$1')
-    .replace(/(京)兆/g, '$1')
-    .replace(/(京|兆|亿|仟|佰|拾)(万?)(.)仟/g, '$1$2零$3仟')
-    .replace(/^元零?|零分/g, '')
-    .replace(/(元|角)$/g, '$1整');
+    .replace(/零(仟|佰|拾|角)/g, "零")
+    .replace(/(零)+/g, "零")
+    .replace(/零(兆|万|亿|元)/g, "$1")
+    .replace(/(兆|亿)万/g, "$1")
+    .replace(/(京|兆)亿/g, "$1")
+    .replace(/(京)兆/g, "$1")
+    .replace(/(京|兆|亿|仟|佰|拾)(万?)(.)仟/g, "$1$2零$3仟")
+    .replace(/^元零?|零分/g, "")
+    .replace(/(元|角)$/g, "$1整");
 }
 /*
   函数：json数组求和
@@ -159,7 +159,7 @@ function arrAdd(arr, key, ...rest) {
       for (const i in arr) {
         if (
           Number.isNaN(Number(arr[i][key])) ||
-          arr[i][key] === '' ||
+          arr[i][key] === "" ||
           arr[i][key] === null ||
           arr[i][key] === undefined
         ) {
@@ -174,7 +174,7 @@ function arrAdd(arr, key, ...rest) {
     for (const i in arr) {
       if (
         Number.isNaN(Number(arr[i][d][key])) ||
-        arr[i][d][key] === '' ||
+        arr[i][d][key] === "" ||
         arr[i][d][key] === null ||
         arr[i][d][key] === undefined
       ) {
@@ -193,7 +193,7 @@ function arrAdd(arr, key, ...rest) {
   调用：insertStr(soure,start,newStr)
   返回值：拼接后的字符串
  */
-function insertStr(soure, start, newStr = ' ') {
+function insertStr(soure, start, newStr = " ") {
   if (soure) {
     if (start instanceof Array) {
       let oldString = soure;
@@ -204,7 +204,7 @@ function insertStr(soure, start, newStr = ' ') {
     }
     return soure.slice(0, start) + newStr + soure.slice(start);
   }
-  return '';
+  return "";
 }
 /*
   函数：深拷贝函数
@@ -217,7 +217,7 @@ function objDeepCopy(source) {
   const sourceCopy = source instanceof Array ? [] : {};
   for (const item in source) {
     sourceCopy[item] =
-      typeof source[item] === 'object'
+      typeof source[item] === "object"
         ? objDeepCopy(source[item])
         : source[item];
   }
@@ -230,11 +230,11 @@ function objDeepCopy(source) {
   调用：subStr(str, start, end, newStr)
   返回值：处理后的字符串
  */
-function subStr(str, start, end, newStr = '') {
+function subStr(str, start, end, newStr = "") {
   if (str) {
     return str.substring(0, start) + newStr + str.substring(str.length - end);
   }
-  return '';
+  return "";
 }
 /*
   函数：保留中文函数
@@ -244,11 +244,11 @@ function subStr(str, start, end, newStr = '') {
   返回值：处理后的字符串
  */
 function GetChinese(strValue) {
-  if (strValue != null && strValue !== '') {
+  if (strValue != null && strValue !== "") {
     const reg = /[\u4e00-\u9fa5]/g;
-    return strValue.match(reg).join('');
+    return strValue.match(reg).join("");
   }
-  return '';
+  return "";
 }
 /*
   函数：日期函数
@@ -259,9 +259,9 @@ function GetChinese(strValue) {
  */
 function getDates(str, ...rest) {
   let data = null;
-  if (typeof str === 'object') {
+  if (typeof str === "object") {
     data = str;
-  } else if (typeof str === 'string' || typeof str === 'number') {
+  } else if (typeof str === "string" || typeof str === "number") {
     data = new Date(str);
   }
   const b = rest[0];
@@ -289,21 +289,21 @@ function getDates(str, ...rest) {
   if (seconds < 10) {
     seconds = `0${seconds}`;
   }
-  let dayNum = '';
-  let daysNum = '';
+  let dayNum = "";
+  let daysNum = "";
   daysNum = data;
   daysNum.setMonth(data.getMonth() + 1);
   daysNum.setDate(0);
   dayNum = daysNum.getDate();
-  let getHMS = '';
-  if (typeof c === 'string') {
+  let getHMS = "";
+  if (typeof c === "string") {
     getHMS = `${hours}${c}${minutes}${c}${seconds}`;
   } else {
     getHMS = `${hours}:${minutes}:${seconds}`;
   }
-  let getYMD = '';
-  let getYMDHMS = '';
-  if (typeof b === 'string') {
+  let getYMD = "";
+  let getYMDHMS = "";
+  if (typeof b === "string") {
     getYMD = `${year}${b}${month}${b}${day}`;
   } else {
     getYMD = `${year}-${month}-${day}`;
@@ -320,7 +320,7 @@ function getDates(str, ...rest) {
     dayNum,
     getHMS,
     getYMD,
-    getYMDHMS
+    getYMDHMS,
   };
 }
 /*
@@ -332,30 +332,78 @@ function getDates(str, ...rest) {
  */
 // 金额美化
 function formatNum(str, type = 1) {
-  if (str === '-' || str === null || str === undefined) {
+  if (str === "-" || str === null || str === undefined) {
     return str;
   }
-  if (typeof str !== 'string') {
+  if (typeof str !== "string") {
     if (Number.isNaN(Number(str))) {
-      return '';
+      return "";
     }
   }
   str = +str;
   // zh中文格式  it-IT美元格式
-  const formatStr = str.toLocaleString('zh', {
-    style: 'decimal'
+  const formatStr = str.toLocaleString("zh", {
+    style: "decimal",
   });
   if (type === 2) {
     return formatStr;
   }
-  if (str.toString().indexOf('.') === -1) {
+  if (str.toString().indexOf(".") === -1) {
     return `${formatStr}.00`;
   }
-  const minute = str.toString().substr(str.toString().indexOf('.'));
+  const minute = str.toString().substr(str.toString().indexOf("."));
   if (minute.length < 3) {
     return `${formatStr}0`;
   }
   return `${formatStr}`;
+}
+//处理连接
+function str2asc(strstr) {
+  return ("0" + strstr.charCodeAt(0).toString(16)).slice(-2);
+}
+//处理连接
+function UrlEncode(str) {
+  let ret = "";
+  let strSpecial = "!\"#$%&'()*+,/:;<=>?[]^`{|}~%";
+  let tt = "";
+
+  for (let i = 0; i < str.length; i++) {
+    let chr = str.charAt(i);
+    let c = str2asc(chr);
+    tt += chr + ":" + c + "n";
+    if (parseInt("0x" + c) > 0x7f) {
+      ret += "%" + c.slice(0, 2) + "%" + c.slice(-2);
+    } else {
+      if (chr == " ") ret += "+";
+      else if (strSpecial.indexOf(chr) != -1) ret += "%" + c.toString(16);
+      else ret += chr;
+    }
+  }
+  return ret;
+}
+function copyText(text) {
+  var textarea = document.createElement("input"); //创建input对象
+  var currentFocus = document.activeElement; //当前获得焦点的元素
+  document.body.appendChild(textarea); //添加元素
+  textarea.value = text;
+  textarea.focus();
+  if (textarea.setSelectionRange)
+    textarea.setSelectionRange(0, textarea.value.length);
+  //获取光标起始位置到结束位置
+  else textarea.select();
+  try {
+    var flag = document.execCommand("copy"); //执行复制
+  } catch (eo) {
+    var flag = false;
+  }
+  document.body.removeChild(textarea); //删除元素
+  currentFocus.focus();
+  return flag;
+}
+function copy(content) {
+  var flag = copyText(content); //传递文本
+
+  return flag;
 }
 export default {
   accAdd,
@@ -369,5 +417,7 @@ export default {
   formatNum,
   objDeepCopy,
   arrAdd,
-  getDates
+  getDates,
+  UrlEncode,
+  copy,
 };
