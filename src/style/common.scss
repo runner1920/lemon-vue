@@ -1,7 +1,7 @@
-@import "~@style/base.scss";
+@import '~@style/base.scss';
 
-$fontFamily: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB",
-  "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
+$fontFamily: 'Helvetica Neue', Helvetica, 'PingFang SC', 'Hiragino Sans GB',
+  'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
 
 /* color */
 $primary-color: #3771d7;
@@ -106,7 +106,7 @@ $fz26: 26px;
 
   &:before {
     @extend .position-y-center;
-    content: "";
+    content: '';
     @include wh(8px, 8px);
     @include borr(50%);
     background: $success-color;
@@ -120,7 +120,7 @@ $fz26: 26px;
 
   &:before {
     @extend .position-y-center;
-    content: "";
+    content: '';
     @include wh(8px, 8px);
     @include borr(50%);
     background: $error-color;
@@ -134,7 +134,7 @@ $fz26: 26px;
 
   &:before {
     @extend .position-y-center;
-    content: "";
+    content: '';
     @include wh(8px, 8px);
     @include borr(50%);
     background: $primary-color;
@@ -148,12 +148,50 @@ $fz26: 26px;
 
   &:before {
     @extend .position-y-center;
-    content: "";
+    content: '';
     @include wh(8px, 8px);
     @include borr(50%);
     background: $disabled-color;
     left: 0;
   }
+}
+
+/* common */
+.wrapper {
+  display: block;
+  width: 1200px;
+  margin: 0 auto;
+}
+
+.diyScrollbar {
+  -webkit-overflow-scrolling: touch;
+}
+
+.diyScrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.diyScrollbar::-webkit-scrollbar-track {
+  background: #f6f6f6;
+  border-radius: 2px;
+}
+
+.diyScrollbar::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 2px;
+}
+
+.diyScrollbar::-webkit-scrollbar-thumb:hover {
+  background: #ccc;
+}
+
+.diyScrollbar::-webkit-scrollbar-corner {
+  background: #f6f6f6;
+}
+
+.diyScrollbar::-webkit-scrollbar-track-piece {
+  background: #fff;
 }
 
 .ellipsis1 {
@@ -180,6 +218,12 @@ $fz26: 26px;
   display: block;
 }
 
+.redTips {
+  color: #ed212c;
+  font-size: $fz12;
+  margin-top: 16px;
+}
+
 .fl {
   float: left;
 }
@@ -192,7 +236,7 @@ $fz26: 26px;
   zoom: 1;
 
   &:after {
-    content: ".";
+    content: '.';
     clear: both;
     @extend .block;
     overflow: hidden;
@@ -208,3 +252,58 @@ $fz26: 26px;
 .w100p {
   width: 100%;
 }
+
+.tac {
+  text-align: center;
+}
+
+.span-button {
+  @include cursor;
+  color: $primary-color;
+  font-size: $fz14;
+
+  &:hover {
+    color: $primary-color;
+  }
+}
+
+.label {
+  color: $color-666;
+  font-size: 14px;
+  line-height: 22px;
+}
+
+.disFlex {
+  display: flex !important;
+  align-items: center;
+}
+
+.AddOne {
+  @include buncc('~@img/mark_plusone.png');
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-left: 5px;
+}
+
+.color-333 {
+  color: $color-333;
+}
+.color-666 {
+  color: $color-666;
+}
+.color-999 {
+  color: $color-999;
+}
+.fz12 {
+  font-size: $fz12;
+}
+.fz14 {
+  font-size: $fz14;
+}
+.fz16 {
+  font-size: $fz16;
+}
+
+@import '~@style/project.scss';

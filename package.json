@@ -1,59 +1,61 @@
 {
-  "name": "thbj",
+  "name": "tradingplatform-new",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "eslint --fix --ext .js,.vue src",
+    "lint-fix": "eslint --fix --ext .js,.vue src",
+    "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
-    "@antv/f2": "^3.6.4-beta.3",
-    "axios": "^0.19.2",
-    "core-js": "^3.6.4",
-    "crypto-js": "^4.0.0",
+    "axios": "^0.19.0",
+    "clipboard": "^2.0.4",
+    "core-js": "^2.6.5",
+    "crypto-js": "^3.1.9-1",
     "decimal.js": "^10.2.0",
-    "exif-js": "^2.3.0",
-    "lodash": "^4.17.15",
-    "sass": "^1.26.5",
-    "sass-loader": "^8.0.2",
-    "sass-resources-loader": "^2.0.3",
-    "vant": "^2.6.2",
-    "vue": "^2.6.11",
-    "vue-router": "^3.1.6",
-    "vuex": "^3.1.3",
-    "weixin-js-sdk": "^1.4.0-test"
+    "element-ui": "^2.11.1",
+    "nprogress": "0.2.0",
+    "qrcode": "^1.4.1",
+    "qrcodejs2": "0.0.2",
+    "save": "^2.4.0",
+    "vue": "^2.6.10",
+    "vue-qr": "^2.1.0",
+    "vue-router": "^3.0.7",
+    "vue-wechat-title": "^2.0.5",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.3.0",
-    "@vue/cli-plugin-eslint": "~4.3.0",
-    "@vue/cli-plugin-router": "~4.3.0",
-    "@vue/cli-plugin-vuex": "~4.3.0",
-    "@vue/cli-service": "~4.3.0",
-    "babel-eslint": "^10.1.0",
-    "babel-plugin-import": "^1.13.0",
-    "eslint": "^6.7.2",
-    "eslint-plugin-vue": "^6.2.2",
-    "vue-template-compiler": "^2.6.11"
+    "@vue/cli-plugin-babel": "^3.10.0",
+    "@vue/cli-plugin-eslint": "^3.10.0",
+    "@vue/cli-plugin-unit-jest": "^3.10.0",
+    "@vue/cli-service": "^3.10.0",
+    "@vue/eslint-config-airbnb": "^4.0.0",
+    "@vue/test-utils": "1.0.0-beta.29",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^23.6.0",
+    "compression-webpack-plugin": "^3.0.0",
+    "eslint": "^5.16.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-prettier": "^3.1.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "lint-staged": "^8.1.5",
+    "pre-commit": "^1.2.2",
+    "sass": "^1.18.0",
+    "sass-loader": "^7.1.0",
+    "sass-resources-loader": "^2.0.1",
+    "vue-template-compiler": "^2.6.10"
   },
-  "eslintConfig": {
-    "root": true,
-    "env": {
-      "node": true
-    },
-    "extends": [
-      "plugin:vue/essential",
-      "eslint:recommended"
-    ],
-    "parserOptions": {
-      "parser": "babel-eslint"
-    },
-    "rules": {}
+  "gitHooks": {
+    "pre-commit": "lint-staged"
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "lint-staged": {
+    "*.{js,vue}": [
+      "vue-cli-service lint",
+      "git add"
+    ]
+  }
 }

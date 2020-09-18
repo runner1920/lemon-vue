@@ -1,4 +1,4 @@
-const CryptoJS = require("crypto-js");
+const CryptoJS = require('crypto-js');
 
 function ASCII(obj) {
   const arr = [];
@@ -15,8 +15,8 @@ function ASCII(obj) {
   return sortObj;
 }
 
-const key = CryptoJS.enc.Utf8.parse("0CoRXTXQyw8W8jud"); // 十六位十六进制数作为密钥
-const iv = CryptoJS.enc.Utf8.parse("0102030405190107"); // 十六位十六进制数作为密钥偏移量
+const key = CryptoJS.enc.Utf8.parse('0CoRXTXQyw8W8jud'); // 十六位十六进制数作为密钥
+const iv = CryptoJS.enc.Utf8.parse('0102030405190107'); // 十六位十六进制数作为密钥偏移量
 
 // 解密方法
 function Decrypt(word) {
@@ -25,7 +25,7 @@ function Decrypt(word) {
   const decrypt = CryptoJS.AES.decrypt(srcs, key, {
     iv,
     mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
+    padding: CryptoJS.pad.Pkcs7
   });
   const decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
   return decryptedStr.toString();
@@ -42,7 +42,7 @@ function Encrypt(word) {
   const encrypted = CryptoJS.AES.encrypt(srcs, key, {
     iv,
     mode: CryptoJS.mode.CBC,
-    padding: CryptoJS.pad.Pkcs7,
+    padding: CryptoJS.pad.Pkcs7
   });
   return encrypted.ciphertext.toString().toUpperCase();
 }
@@ -53,11 +53,11 @@ function EncryptEn(word) {
 }
 
 // Base64
-function Base64(word) {
-  const srcs = CryptoJS.enc.Utf8.parse(word);
-  const base64string = CryptoJS.enc.Base64.stringify(srcs);
-  return base64string.toString();
-}
+// function Base64(word) {
+//   const srcs = CryptoJS.enc.Utf8.parse(word);
+//   const base64string = CryptoJS.enc.Base64.stringify(srcs);
+//   return base64string.toString();
+// }
 
 // MD5
 function MD5(word) {
@@ -78,7 +78,6 @@ export default {
   Decrypt,
   Encrypt,
   MD5,
-  Base64,
   DecryptDe,
-  EncryptEn,
+  EncryptEn
 };

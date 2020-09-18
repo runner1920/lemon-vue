@@ -1,13 +1,28 @@
-import Vue from "vue";
-import App from "./App.vue";
-import router from "./router";
-import store from "./store";
-import calc from "@/utils/calc";
-import secret from "@/utils/secret";
-import "@style/vant.scss";
-import { Dialog, Notify, Toast } from "vant";
+import Vue from 'vue';
+import ElementUI from 'element-ui';
+import App from '@/App.vue';
+import router from '@/router';
+import store from '@/store';
+import calc from '@/utils/calc';
+import secret from '@/utils/secret';
+// import axios from '@/httpConfig/http';
+import '@style/element-variables.scss';
+import '@/assets/font/iconfont.css';
+// eslint-disable-next-line import/order
+import NProgress from 'nprogress'; // progress bar
+import 'nprogress/nprogress.css'; // progress bar style
+
+// import platform from '@/utils/platform';
+// import cookie from '@/utils/cookie';
 
 Vue.config.productionTip = false;
+// Vue.use(ElementUI);
+Vue.use(require('vue-wechat-title'));
+
+Vue.use(ElementUI, {
+  size: 'medium',
+});
+
 // 挂载常用方法
 Vue.prototype.$secret = secret;
 Vue.prototype.$calc = calc;
@@ -16,170 +31,147 @@ Vue.prototype.$accSubtr = calc.accSubtr;
 Vue.prototype.$accMul = calc.accMul;
 Vue.prototype.$accDiv = calc.accDiv;
 Vue.prototype.$formatNum = calc.formatNum;
-Vue.prototype.$dialog = Dialog;
-Vue.prototype.$toast = Toast;
-
-//禁止缩放字体
-(function () {
-  if (
-    typeof WeixinJSBridge == "object" &&
-    typeof WeixinJSBridge.invoke == "function"
-  ) {
-    handleFontSize();
-  } else {
-    if (document.addEventListener) {
-      document.addEventListener("WeixinJSBridgeReady", handleFontSize, false);
-    } else if (document.attachEvent) {
-      document.attachEvent("WeixinJSBridgeReady", handleFontSize);
-      document.attachEvent("onWeixinJSBridgeReady", handleFontSize);
-    }
-  }
-  function handleFontSize() {
-    // 设置网页字体为默认大小
-    WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
-    // 重写设置网页字体大小的事件
-    WeixinJSBridge.on("menu:setfont", function () {
-      WeixinJSBridge.invoke("setFontSizeCallback", { fontSize: 0 });
-    });
-  }
-})();
+// Vue.prototype.$http = axios;
 
 // 二次封装$msg
 Vue.prototype.$msg = {
   success: (str) => {
-    Notify.clear;
-    // 成功通知
-    Notify({ type: "success", message: str });
+    Vue.prototype.$message.closeAll();
+    Vue.prototype.$message.success(str);
   },
   error: (str) => {
-    Notify.clear;
-    // 危险通知
-    Notify({ type: "danger", message: str });
+    Vue.prototype.$message.closeAll();
+    Vue.prototype.$message.error(str);
   },
   warning: (str) => {
-    Notify.clear;
-    // 警告通知
-    Notify({ type: "warning", message: str });
+    Vue.prototype.$message.closeAll();
+    Vue.prototype.$message.warning(str);
   },
   info: (str) => {
-    Notify.clear;
-    // 主要通知
-    Notify({ type: "primary", message: str });
+    Vue.prototype.$message.closeAll();
+    Vue.prototype.$message.info(str);
+  },
+  destroy: () => {
+    Vue.prototype.$message.closeAll();
   },
 };
-//设置rem
-(function (doc, win) {
-  var docEl = doc.documentElement,
-    resizeEvt = "orientationchange" in window ? "orientationchange" : "resize",
-    recalc = function () {
-      var clientWidth = docEl.clientWidth;
-
-      if (!clientWidth) return;
-
-      docEl.style.fontSize = 50 * (clientWidth / 375) + "px";
-
-      console.log(docEl.style.fontSize);
-    };
-
-  if (!doc.addEventListener) return;
-
-  win.addEventListener(resizeEvt, recalc, false);
-
-  doc.addEventListener("DOMContentLoaded", recalc, false);
-})(document, window);
 
 // vuex数据更新
-const fromRoute = localStorage.getItem("fromRoute");
-store.commit("setFromRoute", fromRoute);
-if (localStorage.getItem("isLogin")) {
-  const isLogin = localStorage.getItem("isLogin");
-  const baseInfo = localStorage.getItem("thbj_baseInfo");
-  const token = localStorage.getItem("thbj_token");
-
-  store.commit("login", isLogin ? JSON.parse(isLogin) : false);
-  store.commit("setInfo", JSON.parse(baseInfo));
-  store.commit("setToken", token);
+if (localStorage.getItem('rongyitie_isLogin')) {
+  const isLogin = localStorage.getItem('rongyitie_isLogin');
+  const conpanyInfo = localStorage.getItem('rongyitie_conpanyInfo');
+  const baseInfo = localStorage.getItem('rongyitie_baseInfo');
+  const token = localStorage.getItem('rongyitie_token');
+  const isSuper = localStorage.getItem('isSuper');
+  const isEnt = localStorage.getItem('isEnt');
+  const hasOpenAccount = localStorage.getItem('hasOpenAccount');
+  store.commit('login', JSON.parse(isLogin));
+  store.commit('conpanyInfo', JSON.parse(conpanyInfo));
+  store.commit('baseInfo', JSON.parse(baseInfo));
+  store.commit('setToken', token);
+  store.commit('isSuper', JSON.parse(isSuper));
+  store.commit('isEnt', JSON.parse(isEnt)); // 1是有企业，2是没有企业
+  store.commit('hasOpenAccount', JSON.parse(hasOpenAccount)); // 1注册过企业，2是没有注册
 }
 
-// 解决iponex浏览器底部覆盖tab问题
-var state1 = {
-  title: "title",
-  url: "#",
-};
-window.history.pushState(state1, "title", "#");
-
-//没有登陆走微信授权登陆
-router.beforeEach(async (to, from, next) => {
-  store.commit("setPath", to.name);
-  // set page title
-  document.title = "头号报价";
-  if (from.name) {
-    store.commit("setFromRoute", from.name);
+// 权限检查方法
+Vue.prototype.$_has = (value) => {
+  const premissions = store.state.permission;
+  if (
+    premissions === undefined ||
+    premissions === null ||
+    premissions.length <= 0
+  ) {
+    return false;
   }
-  if (!store.state.isLogin) {
-    //判断是否微信
-    let ua = navigator.userAgent.toLowerCase();
-    let isWeixin = ua.indexOf("micromessenger") != -1;
+  if (premissions.indexOf(value) > -1) {
+    return true;
+  }
+  return false;
+};
 
-    if (isWeixin) {
-      if (!to.query.code) {
-        //如果需要再微信浏览器默认登陆
-        // const configInfo = await store.dispatch("getConfig", {
-        //   url: secret.Base64(window.location.href.split("#")[0]),
-        // });
-        // const configInfo = await store.dispatch("getConfig", {
-        //   url: secret.Base64("https://www.fichange.com"),
-        // });
-      } else {
-        let response;
-        //1 需要授权登陆
-        if (localStorage.getItem("isFrist") == 1) {
-          response = await store.dispatch("wxFristLogin", {
-            code: to.query.code,
-          });
-        } else {
-          response = await store.dispatch("wxLogin", {
-            code: to.query.code,
-          });
-        }
-        if (response.code === "000000") {
-          //未注册 需要授权code
-          if (response.data.bindStatus == 1) {
-            localStorage.setItem("isFrist", 1);
-            store.dispatch("getConfig", {
-              url: secret.Base64("https://www.fichange.com"),
-              isFrist: true,
-            });
-            // next("/register");
-          } else {
-            store.commit("login", true);
-            store.commit("setToken", response.data.token);
-            store.commit("setInfo", response.data);
-          }
-          console.log(2222);
-        } else {
-          console.log(111111);
-          Vue.prototype.$msg.error(response.desc);
-        }
-      }
-      next();
+// 百度数据埋点
+// eslint-disable-next-line
+const _hmt = _hmt || [];
+// eslint-disable-next-line
+window._hmt = _hmt;
+(() => {
+  const hm = document.createElement('script');
+  hm.src = 'https://hm.baidu.com/hm.js?7866262f690211a27af9d0561fb8ff5b';
+  hm.id = 'baidu_tj';
+  const s = document.getElementsByTagName('script')[0];
+  s.parentNode.insertBefore(hm, s);
+  const cnzz = document.createElement('script');
+  cnzz.src = 'https://s9.cnzz.com/z_stat.php?id=1277927283&web_id=1277927283';
+  cnzz.id = 'cnzz_tj';
+  s.parentNode.insertBefore(cnzz, s);
+
+  // 新增统计
+  const hmNew = document.createElement('script');
+  hmNew.src = 'https://hm.baidu.com/hm.js?217e8f0faa8a442a44757209b598b8f9';
+  const sNew = document.getElementsByTagName('script')[0];
+  sNew.parentNode.insertBefore(hmNew, sNew);
+})();
+
+NProgress.configure({ showSpinner: false }); // NProgress Configuration
+
+// 登录判断
+router.beforeEach((to, from, next) => {
+  // 设置当前path
+  store.commit('setPath', to.path);
+  // 开始
+  NProgress.start();
+  // 判断该路由是否需要登录权限
+  if (store.state.isLogin) {
+    if (to.path === '/login') {
+      next({
+        path: '/index',
+      });
+      NProgress.done();
     } else {
-      if (to.name == "setPhone") {
-        Dialog.alert({
-          message: "请在微信内打开后操作",
-        }).then(() => {
-          // next();
-        });
-      } else {
-        next();
-      }
+      next();
+      NProgress.done();
     }
+  } else if (to.meta.requireAuth) {
+    next({
+      path: '/login',
+    });
+    Vue.prototype.$msg.error('登陆后才能查看此页面哦');
+    NProgress.done();
   } else {
     next();
+    NProgress.done();
   }
+});
+
+Vue.directive('scroll', {
+  bind: (el, binding) => {
+    let eventAction = true;
+    const distance = 40; // (unit: px)
+    el.onscroll = (e) => {
+      const scrollHeight = e.target.scrollHeight - e.target.clientHeight;
+      const residualHeight = scrollHeight - e.target.scrollTop;
+      if (
+        typeof binding.value === 'function' &&
+        residualHeight < distance &&
+        eventAction
+      ) {
+        binding.value();
+        eventAction = false;
+      } else if (residualHeight > distance) {
+        eventAction = true;
+      }
+    };
+  },
+});
+
+// 路由切换时置顶
+router.afterEach(() => {
+  NProgress.done();
+  window.scrollTo(0, 0);
 });
 new Vue({
   router,
   store,
   render: (h) => h(App),
-}).$mount("#app");
+}).$mount('#app');

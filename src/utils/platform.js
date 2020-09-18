@@ -449,49 +449,7 @@ function signOut() {
   router.push({
     name: 'login'
   });
-  // const obj = {};
-  // axios
-  //   .post('/web/member/login/personal/logout', obj)
-  //   .then((data) => {
-  //     console.log(data);
-  //     store.commit('signOut');
-  //     router.push({
-  //       name: 'login'
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     console.log(err);
-  //     store.commit('signOut');
-  //     router.push({
-  //       name: 'login'
-  //     });
-  //   });
 }
-
-// 退出企业
-// function signEntOut() {
-//   const obj = {};
-//   axios
-//     .post('/web/member/login/ent/logout', obj)
-//     .then((data) => {
-//       console.log(data);
-//       if (data.code === '000000') {
-//         store.commit('SIGN_ENT_OUT');
-//         router.push({
-//           name: 'indMembers',
-//           query: {
-//             ids: 1
-//           }
-//         });
-//       } else {
-//         Message.error(data.desc);
-//       }
-//     })
-//     .catch((err) => {
-//       console.log(err);
-//       Message.error('请求失败');
-//     });
-// }
 
 // 瑕疵跳转函数
 function jumpFlawList(frontBillInfo, draftBackInfoList, flawLists, f = 2) {
